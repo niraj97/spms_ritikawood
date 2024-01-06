@@ -1,0 +1,32 @@
+<!-- app/views/sessions/new.html.erb -->
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title text-center mb-4">Login</h1>
+          <%= form_with(model: @user, url: sessions_path, method: 'post') do |f| %>
+            <div class="mb-3">
+              <%= f.label :email, class: "form-label" %>
+              <%= f.email_field :email, class: "form-control" %>
+            </div>
+    
+            <div class="mb-3">
+              <%= f.label :password, class: "form-label" %>
+              <%= f.password_field :password, class: "form-control" %>
+            </div>
+    
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <%= f.submit 'Log In', class: 'btn btn-primary btn-lg btn-block', style: 'width: 100%' %>
+              </div>
+              <div class="col-12 col-md-6">
+                <%= link_to 'Register', new_user_path, class: 'btn btn-secondary btn-lg btn-block', style: 'width: 100%' %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+<!-- app/views/customers/index.html.erb -->
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-9">
+      <h1>Customers</h1>
+    </div>
+    <div class="col-md-3 text-end">
+      <button class="btn btn-primary" id="createBtn" data-bs-toggle="modal" data-bs-target="#createCustomerModal">
+        Create
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-9">
+      <h2>List</h2>
+    </div>
+    <div class="col-md-3 text-end">
+      <button class="btn btn-outline-info" type="button" id="filterBtn" data-bs-toggle="modal" data-bs-target="#filterModal">
+        Filters
+      </button>
+    </div>
+  </div>
+
+  <!-- Filter Modal -->
+  <%= render '/customers/filter_modal' %>
+  <%= render '/customers/create_customer_modal' %>
+  <%= render '/customers/edit_customer_modal' %>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Contact</th>
+          <th>Address</th>
+          <!-- Add other columns based on your Customer model -->
+        </tr>
+      </thead>
+      <tbody>
+        <% @customers.each do |customer| %>
+          <tr>
+            <td><%= customer[:id] %></td>
+            <td><%= customer[:name] %></td>
+            <td><%= customer[:contact] %></td>
+            <td><%= customer[:address] %></td>
+            <td>
+              <%= button_to 'View', proposals_customer_path(customer), method: :get, class: 'btn btn-info' %>
+            </td>
+            <td>
+              <button class="btn btn-primary edit-customer-btn", id="editBtn">
+                Edit
+              </button>
+            </td>
+            <!-- Add other columns based on your Customer model -->
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Bootstrap CSS -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    $('.edit-customer-btn').click(function() {
+      const row = $(this).closest('tr');
+      const id = row.find('td:eq(0)').text();
+      const name = row.find('td:eq(1)').text();
+      const contact = row.find('td:eq(2)').text();
+      const address = row.find('td:eq(3)').text();
+
+      // Prefill the modal with the row data
+      $('#editCustomerModal #customerId').val(id);
+      $('#editCustomerModal #name').val(name);
+      $('#editCustomerModal #contact').val(contact);
+      $('#editCustomerModal #address').val(address);
+
+      // Show the modal
+      $('#editCustomerModal').modal('show');
+    });
+  });
+</script>

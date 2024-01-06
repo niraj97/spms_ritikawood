@@ -1,0 +1,65 @@
+<!-- app/views/customers/proposals.html.erb -->
+
+<!-- app/views/proposals/index.html.erb -->
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-9">
+      <h1> #<%= @customer.id %> : <%= @customer.name %> </h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-9">
+      <h1>Proposal List</h1>
+    </div>
+    <div class="col-md-3 text-end">
+      <button class="btn btn-primary" id="createBtn" data-bs-toggle="modal" data-bs-target="#createProposalModal">
+        Create
+      </button>
+    </div>
+  </div>
+
+  <!-- Filter Modal -->
+  <%= render '/proposals/create_proposal_modal' %>
+  <%# <%= render '/proposals/edit_proposal_modal' %>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>File Name</th>
+          <th>File</th>
+          <!-- Add other columns based on your Customer model -->
+        </tr>
+      </thead>
+      <tbody>
+        <% @proposals.each do |proposal| %>
+          <tr>
+            <td><%= proposal[:id] %></td>
+            <td><%= proposal.pdf_file.filename if proposal.pdf_file.attached? %></td>
+            <td>
+              <% if proposal.pdf_file.attached? %>
+                <p>PDF Attached: <%= link_to 'Download PDF', rails_blob_url(proposal.pdf_file) %></p>
+              <% else %>
+                <p>No PDF attached</p>
+              <% end %>
+            </td>
+            <td>
+              <%= form_with(model: proposal, url: proposal_path(proposal), method: :patch, local: true) do |form| %>
+                <%= form.file_field :pdf_file, accept: 'application/pdf' %>
+                <%= form.submit 'Update PDF' %>
+              <% end %>
+            </td>
+            <!-- Add other columns based on your Customer model -->
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Bootstrap CSS -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

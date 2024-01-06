@@ -1,0 +1,79 @@
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="filterModalLabel">Filters</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="<%= customers_path %>" method="get">
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label for="id" class="form-label">Filter by ID:</label>
+              <input type="text" id="id" name="filters[id]" value="<%= params[:filters][:id] if params[:filters].present? %>" class="form-control" placeholder="Enter ID">
+            </div>
+            <div class="col-md-6">
+              <label for="name" class="form-label">Filter by Name:</label>
+              <input type="text" id="name" name="filters[name_like]" value="<%= params[:filters][:name_like] if params[:filters].present? %>" class="form-control" placeholder="Enter Name">
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label for="startDate" class="form-label">Start Date:</label>
+              <input type="text" id="startDate" name="filters[start_date]" class="form-control datepicker" placeholder="Select Start Date">
+            </div>
+            <div class="col-md-6">
+              <label for="endDate" class="form-label">End Date:</label>
+              <input type="text" id="endDate" name="filters[end_date]" class="form-control datepicker" placeholder="Select End Date">
+            </div>
+          </div>
+
+
+          <div class="modal-footer">
+            <button type="button" id="clearFiltersBtn" class="btn btn-secondary">Clear Filters</button>
+            <button type="submit" class="btn btn-primary">Apply Filters</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<!-- Bootstrap Datepicker CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+
+<!-- Bootstrap Datepicker JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    // Initialize datepicker
+    $('.datepicker').datepicker({
+      format: 'yyyy-mm-dd', // Set desired date format
+      autoclose: true
+    });
+  });
+</script>
+
+<script>
+  $(document).ready(function() {
+    // Initialize datepicker
+    $('.datepicker').datepicker({
+      format: 'yyyy-mm-dd', // Set desired date format
+      autoclose: true
+    });
+
+    // Clear filter fields on button click
+    $('#clearFiltersBtn').click(function() {
+      $('#id').val('');
+      $('#name').val('');
+      $('#startDate').val('');
+      $('#endDate').val('');
+    });
+  });
+</script>

@@ -1,0 +1,67 @@
+<div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">edit Customer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editCustomerForm" action="<%= customers_path %>" method="post">
+          <%= csrf_meta_tags %>
+          <input type="hidden" id="customerId" name="customer[id]" value="">
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label for="name" class="form-label">Name:</label>
+              <input type="text" id="name" name="name" value="<%= params[:name] if params[:filters].present? %>" class="form-control" placeholder="Enter Name">
+            </div>
+            <div class="col-md-6">
+              <label for="contact" class="form-label">Contact:</label>
+              <input type="text" id="contact" name="contact" value="<%= params[:contact] if params[:filters].present? %>" class="form-control" placeholder="Enter Mobile Number">
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col">
+              <label for="address" class="form-label">Address:</label>
+              <input type="textbox" id="address" name="address" value="<%= params[:address] if params[:filters].present? %>" class="form-control" placeholder="Enter Address">
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $(document).ready(function() {
+    $('#editCustomerForm').submit(function(event) {
+      event.preventDefault(); // Prevent default form submission
+      const id = $('#customerId').val();
+      const form = $(this);
+      const url = form.attr('action');
+      const formData = form.serialize();
+
+      $.ajax({
+        type: 'PATCH',
+        url: '/customers/' + id,
+        data: formData,
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')); // Include the CSRF token in the request headers
+        },
+        success: function(response) {
+          alert('Customer updated successfully!');
+          location.reload();
+        },
+        error: function(error) {
+          // Handle error response, such as showing error messages
+          alert('Error updating customer: ' + error.responseJSON.error);
+        }
+      });
+    });
+  });
+</script>

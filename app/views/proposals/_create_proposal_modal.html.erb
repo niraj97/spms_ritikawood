@@ -1,0 +1,23 @@
+<div class="modal fade" id="createProposalModal" tabindex="-1" aria-labelledby="createProposalModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createProposalModalLabel">Create Proposal</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(model: [@customer, Proposal.new], url: proposals_path, multipart: true) do |form| %>
+          <%= form.hidden_field :customer_id, value: @customer.id %>
+          <div class="mb-3">
+            <%= form.label :pdf_file, 'Upload PDF File', class: 'form-label' %>
+            <%= form.file_field :pdf_file, class: 'form-control', accept: 'application/pdf' %>
+          </div>
+          <div class="modal-footer">
+            <%= form.submit 'Create', class: 'btn btn-primary' %>
+          </div>
+          
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
